@@ -1,48 +1,48 @@
 import axios from "axios";
 import React, { useState } from "react";
-import store from "../store";
+import { Container, Row, Col, Form } from "react-bootstrap";
 
-const SearchInput = () => {
+const SearchInput = ({ GetHistoryData }) => {
     const [q, setQ] = useState('');
 
     const Submit = async (e) => {
-        const state = {
-            email: '',
-            session: '',
-        }
         e.preventDefault();
-        const apiUrl = `http://localhost:8000/search/history?query=${q}`;
+        const defaultUrl = process.env.REACT_APP_API_DEFAULT_URL;
+        const apiUrl = defaultUrl + `/search/history?query=${q}`;
         try {
             const resp = await axios.get(apiUrl);
-            console.log('resp :', resp.data);
-            store.dispatch({ type: 'LOGIN', email: resp.data.email })
+            GetHistoryData(resp.data)
         } catch (error) {
             console.log(error);
         }
 
     };
-
     return (
-        <div className="container mt-5">
-            <form onSubmit={Submit}>
-                <div className="d-flex justify-content-end">
-                    <div className="input-group mb-3">
-                        <input
-                            type="text"
-                            name="searchInput"
-                            className="form-control search-input"
-                            placeholder="종목코드"
-                            value={q}
-                            onChange={(e) => setQ(e.target.value)}
-                        />
-                        <button type="submit" className="btn search-button">
-                            <i className="bi bi-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
+        <div>
+            <Container>
+                <Row className="col-md-12">
+                    <Form onSubmit={Submit}>
+                        <Form.Group as={Row} className="mb-3">
+                            <Col className="col-md-4">
+                                <input
+                                    type="text"
+                                    name="searchInput"
+                                    className="form-control"
+                                    placeholder="종목코드"
+                                    value={q}
+                                    onChange={(e) => setQ(e.target.value)}
+                                />
+                            </Col>
+                            <Col className="col-md-2">
+                                <button type="submit" className="btn search-button">
+                                    Search
+                                </button>
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                </Row>
+            </Container>
         </div>
-
     )
 }
 export default SearchInput;

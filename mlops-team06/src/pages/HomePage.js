@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 const handleLogout = () => {
     sessionStorage.removeItem('sessionID')
     sessionStorage.removeItem('userEmail')
+
+    window.location.href = '/';
 }
 
 const HomePage = () => {
@@ -13,7 +15,7 @@ const HomePage = () => {
 
     const navigate = useNavigate();
 
-    
+
     const handleLogin = () => {
         navigate('/login');
         console.log('login button click')
@@ -25,6 +27,9 @@ const HomePage = () => {
     const handleHistory = () => {
         navigate('/history');
         console.log('history button click')
+    }
+    const handleSignup = () => {
+        navigate('/signup');
     }
 
     console.log(userEmail)
@@ -73,6 +78,16 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
+                <div className="col-md-6 mb-3">
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">회원가입</h5>
+                            <button className="btn btn-secondary" onClick={handleSignup}>
+                                회원가입
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -80,4 +95,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-export { handleLogout };

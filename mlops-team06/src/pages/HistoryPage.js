@@ -1,13 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import SearchInput from '../componenets/SearchInput';
-import Navbar from '../componenets/Navbar';
+import StockTable from '../componenets/stock_table';
 
 const HistoryPage = () => {
-    
+    const navigate = useNavigate();
+    const [historyData, setHistoryData] = useState(null)
+
+    useEffect(() => {
+        const userEmail = sessionStorage.getItem('userEmail');
+        if (!userEmail) {
+            navigate('/login');
+        }
+    }, []);
+
+    const GetHistoryData = (data) => {
+        setHistoryData(data)
+    }
     return (
         <div>
-            <h1>HistoryPage</h1>
-            <SearchInput></SearchInput>
+            <SearchInput GetHistoryData={GetHistoryData} ></SearchInput>
+            {historyData != null && (<StockTable data={historyData} />)}
         </div>
     );
 };

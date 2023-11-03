@@ -6,26 +6,10 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import HistoryPage from './pages/HistoryPage';
 import PredictPage from './pages/PredictPage';
-import { useSelector } from 'react-redux';
-import { selectUser } from './reducers/userSlice';
 import Navbar from './componenets/Navbar';
 import './App.css';
 
 function App() {
-  const user = useSelector(selectUser);
-
-  const DecorateRoute = ({element, path}) => {
-    console.log(user);
-    if (!user && path === '/login') {
-      return element;
-    }
-    else if (user && path === '/login') {
-      return <Navigate to="/" />;
-    } 
-    else {
-      return element;
-    }
-  }
 
   return (
     <Router>

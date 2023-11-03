@@ -1,52 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Navbar, NavDropdown, Nav, Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { handleLogout } from '../pages/HomePage';
 
-function Navbar() {
+function Navigatebar() {
   const userEmail = sessionStorage.getItem('userEmail');
 
   return (
-    <div className='container'>
-      <div className='row'>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container">
-              <Link to="/" className="navbar-brand">내일의 주식</Link>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav ms-auto">
-                  <li className="nav-item">
-                    <Link to="/predict" className="nav-link">Predict</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/history" className="nav-link">History</Link>
-                  </li>
-                  {userEmail ? (
-                    <li className="nav-item">
-                      <Link className="nav-link" onClick={handleLogout}>Logout</Link>
-                    </li>
-                  ) : (
-                    <li className="nav-item">
-                      <Link to="/login" className="nav-link">Login</Link>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-
+    <>
+      <Navbar expand="lg" className="bg-bg-body-tertiary">
+        <Container>
+          <Row className='col-md-12'>
+            <Col>
+              <Link to="/" className="navbar-brand">내일 주식</Link>
+            </Col>
+            <Col className='col-md-2'>
+              <Link to="/predict" className="navbar-brand">Predict</Link>
+            </Col>
+            <Col className='col-md-2'>
+              <Link to="/history" className="navbar-brand">History</Link>
+            </Col>
+            <Col className='col-md-2'>
+              {userEmail ? (
+                <Link className="navbar-brand" onClick={handleLogout}>Logout</Link>
+              ):(
+                <Link to="/login" className="navbar-brand">Login</Link>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </Navbar>
+    </>
   );
 }
 
-export default Navbar;
+export default Navigatebar;

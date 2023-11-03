@@ -1,23 +1,35 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function StockPredictionPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResult, setSearchResult] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const userEmail = sessionStorage.getItem('userEmail');
+    if (!userEmail) {
+      navigate('/login');
+    }
+  }, []);
 
   const handleSearch = async(e) => {
     e.preventDefault();
-    const apiUrl = `http://localhost:8000/search/predict?query=${searchQuery}`;
+    const defaultUrl = process.env.REACT_APP_API_DEFAULT_URL;
+
+    const apiUrl = defaultUrl+`/search/predict?query=${searchQuery}`;
+    console.log(apiUrl)
     try {
       const resp = await axios.get(apiUrl);
       console.log('resp :', resp.data)
-      setSearchResult(`주식 "${searchQuery}"의 예측 가격은 ${resp.data}입니다.`);
+      setSearchResult(resp.data.message);
       console.log(searchResult)
     } catch (error) {
       console.log(error)
     }
-    
+
   };
 
   return (
